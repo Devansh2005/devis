@@ -4,6 +4,10 @@ from speech_recognition import Microphone
 from speech_recognition import RequestError
 from speech_recognition import UnknownValueError
 from time import sleep, ctime
+from re import search
+import webbrowser
+import wikipedia
+import smtplib
 
 
 
@@ -48,11 +52,35 @@ def search_command(audio_text):
         sleep(3)
         something_else()
 
-        #Current time
+    #Current time
     elif "current time" in audio_text or "time" in audio_text:
         speak_electrica(ctime())
         sleep(3)
         something_else()
+    #Google Search
+
+    elif "google search" in audio_text:
+        reg_ex=search("google search (.*)", audio_text)
+        search_result = reg_ex.group(1)
+        speak_electrica("Here's what are found for "+search_result+"on google.")
+        url="http://google.com/search?=q" + search_result
+        webbrowser.open(url, new=2)
+        sleep(3)
+        something_else()
+
+    #Google maps
+
+    elif "find loaction" in audio_text:
+        location= record_audio("What location you want to search?")
+        speak_electrica("Here's the loaction" +location)
+        url = "https://google.nl/maps/place/"+ location+"/&amp;" 
+        webbrowser.open(url, new=2)
+        sleep(3)
+        something_else()
+
+
+
+
 
     elif "exit" in audio_text:
         speak_electrica("Ok, Bye Bye")
