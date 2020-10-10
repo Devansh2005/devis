@@ -63,7 +63,7 @@ def search_command(audio_text):
         reg_ex=search("google search (.*)", audio_text)
         search_result = reg_ex.group(1)
         speak_electrica("Here's what are found for "+search_result+"on google.")
-        url="http://google.com/search?=q" + search_result
+        url="http://google.com/search?q=" + search_result
         webbrowser.open(url, new=2)
         sleep(3)
         something_else()
