@@ -62,8 +62,13 @@ def search_command(audio_text):
     elif "google search" in audio_text:
         reg_ex=search("google search (.*)", audio_text)
         search_result = reg_ex.group(1)
+<<<<<<< HEAD:Voice/devis.py
         speak_devis("Here's what are found for "+search_result+" ~on google.")
         url="http://google.com/search?q="+search_result
+=======
+        speak_electrica("Here's what are found for "+search_result+"on google.")
+        url="http://google.com/search?q=" + search_result
+>>>>>>> b1d882230952298de2a121dd93b63abc578f0eef:Voice/1.py
         webbrowser.open(url, new=2)
         sleep(3)
         something_else()
@@ -106,7 +111,12 @@ def something_else():
 
 
 
+<<<<<<< HEAD:Voice/devis.py
 speak_devis("Hello, how can i help you")
 say_again()
 
 1.35
+=======
+speak_electrica("Hello, how can i help you")
+say_again()
+>>>>>>> b1d882230952298de2a121dd93b63abc578f0eef:Voice/1.py
