@@ -1,4 +1,4 @@
 # Devis Assistant
-Devis is an assistant
+Devis is an assistant currently learning
 
 
