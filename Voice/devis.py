@@ -10,7 +10,6 @@ import wikipedia
 import smtplib
 
 
-
 tts_engine =pyttsx3.init("sapi5")
 
 rate =tts_engine.getProperty("rate")
@@ -57,8 +56,8 @@ def search_command(audio_text):
         speak_devis(ctime())
         sleep(3)
         something_else()
+        
     #Google Search
-
     elif "google search" in audio_text:
         reg_ex=search("google search (.*)", audio_text)
         search_result = reg_ex.group(1)
