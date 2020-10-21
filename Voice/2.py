@@ -1,5 +1,0 @@
-import pyttsx3
-from speech_recognition import Recognizer
-from speech_recognition import Microphone
-from speech_recognition import RequestError
-from speech_recognition import UnknownValueError
