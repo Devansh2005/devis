@@ -103,7 +103,25 @@ def something_else():
     else:
         speak_devis("Ok, Bye Bye")
         exit()
+def send_mail():
+#     print('Inside Send Mail function')
+    server=smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    
+    #Login
+    server.login('EMAIL_ID','APP_PASSWORD')
 
+    #Composing the mail
+    subject='SUBJECT'
+    body="MAIL BODY"
+    msg=f"Subject: {subject}\n\n{body}"
+    
+    server.sendmail('FROM_EMAIL_ID','TO_EMAIL_ID',msg)
+#     print('MSG SENT!')
+
+    server.quit()
 
 
 
