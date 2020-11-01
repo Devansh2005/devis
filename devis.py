@@ -12,18 +12,11 @@ import subprocess
 import cv2
 from tkinter import *
 import PIL.Image, PIL.ImageTk
+# from cam_recorder2 import main
 
-<<<<<<< HEAD
 tts_engine= pyttsx3.init('sapi5')
 rate = tts_engine.getProperty('rate') 
 tts_engine.setProperty('rate', 140)
-=======
-
-tts_engine =pyttsx3.init("sapi5")
-
-rate =tts_engine.getProperty("rate")
-tts_engine.setProperty("rate", 140)
->>>>>>> e4295ca30e6e853bc10641f4712a821f8927ed4e
 
 def speak_devis(text):
    var.set(text)
@@ -74,52 +67,10 @@ def greeting():
    speak_devis("Press Command Button to give your command")
 
 def search_command(audio_text):
-<<<<<<< HEAD
    if 'your name' in audio_text:
       speak_devis("My name is Devis.")
       sleep(2)
       something_else()
-=======
-    #Devis Introduction
-    if "your name" in audio_text:
-        speak_devis("my name is Devis.")
-        sleep(3)
-        something_else()
-
-    #Current time
-    elif "current time" in audio_text or "time" in audio_text:
-        speak_devis(ctime())
-        sleep(3)
-        something_else()
-        
-    #Google Search
-    elif "google search" in audio_text:
-        reg_ex=search("google search (.*)", audio_text)
-        search_result = reg_ex.group(1)
-
-        speak_devis("Here's what are found for "+search_result+" ~on google.")
-        url="http://google.com/search?q="+search_result
-
-        webbrowser.open(url, new=2)
-        sleep(3)
-        something_else()
-
-    #Google maps
-
-    elif "find a location" in audio_text:
-        location= record_audio("What location you want to search?")
-        speak_devis("Here's the location" +location)
-        url = "https://google.nl/maps/place/"+location+"/&amp;" 
-        webbrowser.open(url, new=2)
-        sleep(3)
-        something_else()
-
-
-    elif "exit" in audio_text:
-        speak_devis("Ok, Bye Bye")
-        exit()
-
->>>>>>> e4295ca30e6e853bc10641f4712a821f8927ed4e
     
    # Check Current Time
    elif 'time' in audio_text:
@@ -159,6 +110,7 @@ def search_command(audio_text):
          sleep(2)
          something_else()
 
+
    # Google Map Search
    elif 'find location' in audio_text:
       location = record_audio('what location you want to search?')
@@ -182,6 +134,7 @@ def search_command(audio_text):
       else:
          speak_devis("Unable to get the url of requested website")
          say_again()
+
     
    # Send Gmail
    elif 'send mail' in audio_text or 'send email' in audio_text:
@@ -238,17 +191,7 @@ def something_else():
     else:
         speak_devis("Ok Sir!")
         exit()
-def send_mail():
-#     print('Inside Send Mail function')
-    server=smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.ehlo()
-    
-    #Login
-    server.login('EMAIL_ID','APP_PASSWORD')
 
-<<<<<<< HEAD
 def update(ind):
    frame = frames[(ind)%100]
    ind += 1
@@ -308,22 +251,3 @@ btn2.config(font=("Courier",12))
 btn2.pack()
 
 interface.mainloop()
-=======
-    #Composing the mail
-    subject='SUBJECT'
-    body="MAIL BODY"
-    msg=f"Subject: {subject}\n\n{body}"
-    
-    server.sendmail('FROM_EMAIL_ID','TO_EMAIL_ID',msg)
-#     print('MSG SENT!')
->>>>>>> e4295ca30e6e853bc10641f4712a821f8927ed4e
-
-    server.quit()
-
-
-
-<<<<<<< HEAD
-=======
-speak_devis("Hello, how can i help you")
-say_again()
->>>>>>> e4295ca30e6e853bc10641f4712a821f8927ed4e
