@@ -9,9 +9,10 @@ import webbrowser
 import wikipedia
 import smtplib
 import subprocess
-import cv2
+from cv2 import cv2
 from tkinter import *
 import PIL.Image, PIL.ImageTk
+from nltk.tokenize import sent_tokenize 
 # from cam_recorder2 import main
 
 tts_engine= pyttsx3.init('sapi5')
