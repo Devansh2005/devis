@@ -12,7 +12,7 @@ import filetype
 import subprocess
 from cv2 import cv2
 from assets.fileexplorer import fileExplorer
-from assets.popup import popup
+from assets.popup import popup, passpopup
 from tkinter import *
 import PIL.Image, PIL.ImageTk
 from nltk.tokenize import sent_tokenize 
@@ -52,7 +52,7 @@ def record_audio(ask=False):
             say_again()
 
 contacts={'receiver_name':'receiver_mail'}
-def mailService(email, password):
+def mail_service(email, password):
    from email.message import EmailMessage
    email_address = email
    email_password = password
@@ -201,17 +201,14 @@ def search_command(audio_text):
    # Send Gmail
    elif 'send mail' in audio_text or 'send email' in audio_text:
       try:
-         to = record_audio('to whome you want to send?')
-         if to in contacts:
-            content = record_audio('what should I write in mail?')
-            sendemail(contacts[to], content)
-            speak_devis('Email has been sent!')
-            sleep(2)
-            something_else()
-         else:
-            speak_devis('Unable to get the contact!')
-            sleep(2)
-            something_else()
+         speak_devis('Please provide your email!')
+         sender = popup('Email', 'Enter Your Email Address:')
+         speak_devis('Please ensure you have configured your google mail to allow third party applications. You can also configure an app password')
+         speak_devis('Enter Your Password:')
+         password = passpopup('Password', 'Enter Your Email Password: ')
+         mail_service(sender, password)
+         sleep(2)
+         something_else()
       except Exception:
          speak_devis('Sorry Sir! Unable to send the email')
          say_again()
