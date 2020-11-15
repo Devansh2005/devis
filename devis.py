@@ -8,8 +8,11 @@ from re import search
 import webbrowser
 import wikipedia
 import smtplib
+import filetype
 import subprocess
 from cv2 import cv2
+from assets.fileexplorer import fileExplorer
+from assets.popup import popup, passpopup
 from tkinter import *
 import PIL.Image, PIL.ImageTk
 from nltk.tokenize import sent_tokenize 
@@ -49,13 +52,71 @@ def record_audio(ask=False):
             say_again()
 
 contacts={'receiver_name':'receiver_mail'}
-def sendemail(to, content):
-   server = smtplib.SMTP('smtp.gmail.com', 587)
-   server.ehlo()
-   server.starttls()
-   server.login('sender_mail', 'sender_pwd')
-   server.sendmail('sender_mail', to, content)
-   server.close()
+def mail_service(email, password):
+   from email.message import EmailMessage
+   email_address = email
+   email_password = password
+
+   msg = EmailMessage()
+   speak_devis('What is the subject of your message?')
+   msg['Subject'] = record_audio()
+   msg['From'] = email_address
+   speak_devis('Who will you like to send the mail to?')
+   receiver = popup('Email', 'Enter Recipient Email Address:')
+   msg['To'] = receiver
+   speak_devis('Please provide the content of the mail! Would you prefer to type it or say it?')
+   while True:
+      response = record_audio()
+      if 'type' in response:
+            content = popup('Email Content', 'Type in the Content of Your Mail:')
+            break
+      elif 'speak' in response:
+            content = record_audio()
+            break
+      else: 
+            speak_devis("I couldn't understand your response. Please use either the word type or speak!")
+            continue
+   msg.set_content(content)
+
+   speak_devis(('Do you want to attach a file?'))
+   attachcontent = record_audio()
+
+   if attachcontent.lower() == 'yes':
+      while True:
+            try:
+               speak_devis('How many files do you want to attach? ')
+               attachcount = int(record_audio())
+               attachments = 0
+               while attachments < attachcount:
+                  file_path = fileExplorer()
+                  with open(file_path, 'rb') as f:
+                        file_data = f.read()
+                        file_mime = filetype.guess_mime(f.name)
+                        file_type = filetype.guess_extension(f.name)
+                        file_name = f.name.split('/')[-1]
+                  msg.add_attachment(file_data, maintype=file_mime,
+                                    subtype=file_type, filename=file_name)
+                  attachments += 1
+               break
+            except ValueError:
+               speak_devis('You were meant to type a number.')
+               continue
+            except FileNotFoundError:
+               speak_devis('File could not be accessed!')
+               continue
+            except Exception as e:
+               speak_devis("I ran into issues trying to process that. Let's try that again!")
+               print(e)
+               continue
+   else:
+         speak_devis('Message will be sent without an attachment!')
+
+   with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+      smtp.login(email_address, email_password)
+      smtp.send_message(msg)
+   speak_devis('Your email has been sent!')
+   return
+
 
 def greeting():
    day_time = int(strftime('%H'))
@@ -140,17 +201,14 @@ def search_command(audio_text):
    # Send Gmail
    elif 'send mail' in audio_text or 'send email' in audio_text:
       try:
-         to = record_audio('to whome you want to send?')
-         if to in contacts:
-            content = record_audio('what should I write in mail?')
-            sendemail(contacts[to], content)
-            speak_devis('Email has been sent!')
-            sleep(2)
-            something_else()
-         else:
-            speak_devis('Unable to get the contact!')
-            sleep(2)
-            something_else()
+         speak_devis('Please provide your email!')
+         sender = popup('Email', 'Enter Your Email Address:')
+         speak_devis('Please ensure you have configured your google mail to allow third party applications. You can also configure an app password')
+         speak_devis('Enter Your Password:')
+         password = passpopup('Password', 'Enter Your Email Password: ')
+         mail_service(sender, password)
+         sleep(2)
+         something_else()
       except Exception:
          speak_devis('Sorry Sir! Unable to send the email')
          say_again()
