@@ -8,6 +8,7 @@ from re import search
 import webbrowser
 import wikipedia
 import smtplib
+import filetype
 import subprocess
 from cv2 import cv2
 from assets.fileexplorer import fileExplorer
