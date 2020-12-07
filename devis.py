@@ -16,6 +16,8 @@ from assets.popup import popup, passpopup
 from tkinter import *
 import PIL.Image, PIL.ImageTk
 from nltk.tokenize import sent_tokenize 
+import pywhatkit 
+
 # from cam_recorder2 import main
 
 tts_engine= pyttsx3.init('sapi5')
@@ -67,10 +69,10 @@ def mail_service(email, password):
    speak_devis('Please provide the content of the mail! Would you prefer to type it or say it?')
    while True:
       response = record_audio()
-      if 'type' in response:
+      if 'type' or "type it" in response:
             content = popup('Email Content', 'Type in the Content of Your Mail:')
             break
-      elif 'speak' in response:
+      elif 'speak' or "say it" in response:
             content = record_audio()
             break
       else: 
@@ -175,7 +177,7 @@ def search_command(audio_text):
 
    # Google Map Search
    elif 'find location' in audio_text:
-      location = record_audio('what location you want to search?')
+      location = record_audio('what location you want to search ?')
       speak_devis("Here's the location "+location)
       url = 'https://google.nl/maps/place/'+ location +'/&amp;'
       webbrowser.open(url,new=2)
@@ -224,6 +226,11 @@ def search_command(audio_text):
       stream.release()
       sleep(2)
       something_else()
+
+   # play on youtube
+   elif "play on youtube" in audio_text or "youtube" in audio_text:
+      song= record_audio("Say what you what to play")
+      pywhatkit.playonyt(song)
 
    elif 'exit' in audio_text or 'nothing' in audio_text:
       btn1.configure(bg = '#5C85FB')
