@@ -176,7 +176,7 @@ def search_command(audio_text):
 
 
    # Google Map Search
-   elif 'find a location' or "find location" or "search location" in audio_text:
+   elif  "find location" in audio_text:
       location = record_audio('what location you want to search ?')
       speak_devis("Here's the location "+location)
       url = 'https://google.nl/maps/place/'+ location +'/&amp;'
